@@ -1,0 +1,500 @@
+<style>
+  :root {
+    --ground: #F4F6F8;
+    --surface: #FFFFFF;
+    --surface-2: #FBFCFD;
+    --ink: #15202B;
+    --muted: #566472;
+    --faint: #7C8B99;
+    --accent: #0E7C86;
+    --accent-ink: #0A5C64;
+    --signal: #1C9E58;
+    --border: #E3E8EC;
+    --hairline: #EDF1F4;
+    --shadow: 0 1px 2px rgba(21,32,43,.04), 0 8px 24px rgba(21,32,43,.05);
+    --mono: ui-monospace, "Cascadia Code", "Cascadia Mono", "Segoe UI Mono", Consolas, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, Helvetica, Arial, sans-serif;
+    --maxw: 1000px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0C1116;
+      --surface: #141C24;
+      --surface-2: #10171E;
+      --ink: #E7EDF2;
+      --muted: #93A2AF;
+      --faint: #6E7E8B;
+      --accent: #37C6CE;
+      --accent-ink: #5CD6DC;
+      --signal: #3FD07F;
+      --border: #23303B;
+      --hairline: #1B252E;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #F4F6F8; --surface: #FFFFFF; --surface-2: #FBFCFD; --ink: #15202B;
+    --muted: #566472; --faint: #7C8B99; --accent: #0E7C86; --accent-ink: #0A5C64;
+    --signal: #1C9E58; --border: #E3E8EC; --hairline: #EDF1F4;
+    --shadow: 0 1px 2px rgba(21,32,43,.04), 0 8px 24px rgba(21,32,43,.05);
+  }
+  :root[data-theme="dark"] {
+    --ground: #0C1116; --surface: #141C24; --surface-2: #10171E; --ink: #E7EDF2;
+    --muted: #93A2AF; --faint: #6E7E8B; --accent: #37C6CE; --accent-ink: #5CD6DC;
+    --signal: #3FD07F; --border: #23303B; --hairline: #1B252E;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .page {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16.5px;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  a { color: inherit; }
+  ::selection { background: var(--accent); color: #fff; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: .72rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+    display: flex; align-items: center; gap: 9px;
+  }
+  .eyebrow::before {
+    content: ""; width: 22px; height: 1px; background: var(--accent); opacity: .55;
+  }
+
+  /* ---------- NAV ---------- */
+  nav.bar {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--ground) 82%, transparent);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .bar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .brand { font-family: var(--mono); font-weight: 600; font-size: .92rem; letter-spacing: .02em; }
+  .brand b { color: var(--accent); }
+  .navlinks { display: flex; gap: 26px; }
+  .navlinks a {
+    text-decoration: none; color: var(--muted); font-size: .9rem;
+    transition: color .15s;
+  }
+  .navlinks a:hover { color: var(--ink); }
+  @media (max-width: 680px){ .navlinks { display: none; } }
+
+  /* ---------- HERO ---------- */
+  header.hero { padding: 78px 0 54px; }
+  .status {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-family: var(--mono); font-size: .76rem; letter-spacing: .04em;
+    color: var(--muted);
+    border: 1px solid var(--border); background: var(--surface);
+    padding: 6px 13px; border-radius: 999px; margin-bottom: 26px;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--signal);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--signal) 60%, transparent);
+    animation: pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--signal) 55%, transparent); }
+    70% { box-shadow: 0 0 0 7px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+  h1.name {
+    font-size: clamp(2.6rem, 7vw, 4.3rem);
+    line-height: 1.02; margin: 0 0 18px;
+    letter-spacing: -.028em; font-weight: 800;
+    text-wrap: balance;
+  }
+  .role {
+    font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+    color: var(--muted); margin: 0 0 22px; font-weight: 500;
+  }
+  .role .hl { color: var(--ink); font-weight: 700; }
+  .lede { max-width: 60ch; color: var(--muted); font-size: 1.06rem; margin: 0 0 32px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    text-decoration: none; font-size: .92rem; font-weight: 600;
+    padding: 11px 20px; border-radius: 10px; transition: transform .12s, background .15s, border-color .15s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { transform: translateY(-2px); background: var(--accent-ink); }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--border); }
+  .btn-ghost:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- METRICS ---------- */
+  .metrics {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    border-radius: 14px; overflow: hidden; margin-top: 46px;
+  }
+  .metric { background: var(--surface); padding: 22px 20px; }
+  .metric .num {
+    font-size: clamp(1.5rem, 3.4vw, 2.05rem); font-weight: 800; letter-spacing: -.02em;
+    color: var(--ink); font-variant-numeric: tabular-nums;
+  }
+  .metric .lbl { font-family: var(--mono); font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: var(--faint); margin-top: 5px; }
+  @media (max-width: 680px){ .metrics { grid-template-columns: repeat(2,1fr); } }
+
+  /* ---------- SECTIONS ---------- */
+  section { padding: 60px 0; border-top: 1px solid var(--hairline); }
+  h2.sec {
+    font-size: clamp(1.55rem, 3.2vw, 2.1rem); margin: 0 0 8px;
+    letter-spacing: -.02em; font-weight: 750; text-wrap: balance;
+  }
+  .sec-sub { color: var(--muted); margin: 0 0 36px; max-width: 62ch; }
+
+  .prose p { color: var(--muted); max-width: 66ch; }
+  .prose p + p { margin-top: 16px; }
+  .prose strong { color: var(--ink); font-weight: 650; }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline { position: relative; padding-left: 26px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px;
+    width: 2px; background: var(--border);
+  }
+  .job { position: relative; padding-bottom: 34px; }
+  .job:last-child { padding-bottom: 0; }
+  .job::before {
+    content: ""; position: absolute; left: -25px; top: 6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--surface); border: 2px solid var(--accent);
+  }
+  .job .when { font-family: var(--mono); font-size: .74rem; letter-spacing: .05em; color: var(--faint); text-transform: uppercase; }
+  .job h3 { margin: 6px 0 2px; font-size: 1.16rem; letter-spacing: -.01em; }
+  .job .org { color: var(--accent); font-weight: 600; font-size: .96rem; margin-bottom: 12px; }
+  .job ul { margin: 10px 0 0; padding-left: 18px; color: var(--muted); }
+  .job li { margin-bottom: 7px; }
+  .job li::marker { color: var(--accent); }
+
+  /* ---------- PROJECTS ---------- */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 720px){ .grid { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px; box-shadow: var(--shadow);
+    transition: transform .15s, border-color .15s;
+    display: flex; flex-direction: column;
+  }
+  .card:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+  .card .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .card h3 { margin: 0; font-size: 1.2rem; letter-spacing: -.01em; }
+  .card .kind { font-family: var(--mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+  .card .status-mini { display:inline-flex; align-items:center; gap:6px; font-family: var(--mono); font-size:.66rem; color: var(--signal); letter-spacing:.06em; }
+  .card .status-mini i { width:6px; height:6px; border-radius:50%; background: var(--signal); display:inline-block; }
+  .card p { color: var(--muted); font-size: .95rem; margin: 4px 0 16px; flex: 1; }
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag {
+    font-family: var(--mono); font-size: .72rem; color: var(--muted);
+    background: var(--surface-2); border: 1px solid var(--hairline);
+    padding: 4px 9px; border-radius: 7px;
+  }
+
+  /* ---------- SKILLS ---------- */
+  .skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px 40px; }
+  @media (max-width: 680px){ .skills { grid-template-columns: 1fr; } }
+  .skillgroup h4 {
+    font-family: var(--mono); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--hairline);
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-size: .86rem; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px;
+  }
+
+  /* ---------- EDU / CERTS ---------- */
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 680px){ .two { grid-template-columns: 1fr; } }
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; box-shadow: var(--shadow); }
+  .panel h4 { margin: 0 0 12px; font-size: .78rem; font-family: var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+  .panel .item strong { display:block; }
+  .panel .item span { color: var(--muted); font-size: .9rem; }
+  .panel .item + .item { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--hairline); }
+
+  /* ---------- CONTACT ---------- */
+  .contact { text-align: center; padding: 70px 0 30px; }
+  .contact h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 14px; letter-spacing: -.02em; }
+  .contact p { color: var(--muted); max-width: 46ch; margin: 0 auto 28px; }
+  footer.foot {
+    border-top: 1px solid var(--hairline); padding: 24px 0 40px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    font-family: var(--mono); font-size: .78rem; color: var(--faint);
+  }
+  footer.foot a { color: var(--muted); text-decoration: none; }
+  footer.foot a:hover { color: var(--accent); }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  .reveal { opacity: 0; transform: translateY(14px); animation: rise .7s cubic-bezier(.2,.7,.2,1) forwards; }
+  .reveal.d1 { animation-delay: .06s; } .reveal.d2 { animation-delay: .13s; }
+  .reveal.d3 { animation-delay: .2s; } .reveal.d4 { animation-delay: .28s; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+</style>
+
+<div class="page">
+  <nav class="bar">
+    <div class="wrap">
+      <div class="brand">deepak<b>.</b>a</div>
+      <div class="navlinks">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="status reveal"><span class="dot"></span>Available for backend engineering roles</div>
+      <h1 class="name reveal d1">Deepak A</h1>
+      <p class="role reveal d1"><span class="hl">Backend Engineer</span> &nbsp;·&nbsp; Python &nbsp;·&nbsp; Django &amp; DRF &nbsp;·&nbsp; AWS</p>
+      <p class="lede reveal d2">Nearly four years building and running production Python/Django REST APIs for
+        healthcare platforms — designing scalable services, tuning MySQL and the ORM under real traffic,
+        and owning reliability for a system serving <strong style="color:var(--ink)">130+ clients</strong> and
+        <strong style="color:var(--ink)">4,500+ users</strong>.</p>
+      <div class="cta reveal d3">
+        <a class="btn btn-primary" href="mailto:deepakalbert31@gmail.com">Get in touch</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/deepak-a" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+
+      <div class="metrics reveal d4">
+        <div class="metric"><div class="num">~4 yrs</div><div class="lbl">Backend experience</div></div>
+        <div class="metric"><div class="num">130+</div><div class="lbl">Clinics &amp; hospitals</div></div>
+        <div class="metric"><div class="num">4,500+</div><div class="lbl">Platform users</div></div>
+        <div class="metric"><div class="num">Zero&#8209;downtime</div><div class="lbl">Blue-green releases</div></div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="wrap">
+      <p class="eyebrow">About</p>
+      <h2 class="sec">Production-minded backend engineering</h2>
+      <div class="prose">
+        <p>I'm a backend engineer focused on <strong>scalable REST APIs, database performance, and production reliability</strong>.
+          Most of my career has been at Tecnospice, building a multi-module healthcare platform — appointments, patient
+          records, prescriptions, and billing — on Django REST Framework and MySQL.</p>
+        <p>Beyond building features, I <strong>own what happens when things break</strong>: triaging live issues through log
+          analysis, coordinating directly with clients, and shipping fixes safely with blue-green deployment. I work across
+          the async and real-time stack — <strong>Celery and Redis</strong> for background jobs, <strong>WebSockets</strong>
+          for emergency alerts — and deploy on AWS. I also run backend code reviews and mentor junior developers.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <p class="eyebrow">Experience</p>
+      <h2 class="sec">Where I've worked</h2>
+      <p class="sec-sub">From intern to owning production modules end to end.</p>
+      <div class="timeline">
+        <div class="job">
+          <div class="when">Sep 2022 — Present</div>
+          <h3>Software Engineer</h3>
+          <div class="org">Tecnospice Technology (formerly Svastanibhanda Medical Technologies), Coimbatore</div>
+          <ul>
+            <li>Designed and built RESTful APIs with Django REST Framework for multi-module healthcare platforms serving clinics and hospitals.</li>
+            <li>Optimized complex MySQL queries and Django ORM operations, reducing API latency and easing database load under production traffic.</li>
+            <li>Implemented asynchronous background processing with Celery and Redis for notifications, scheduled jobs, and long-running tasks.</li>
+            <li>Built real-time features with WebSockets for emergency alerts and appointment/notification updates.</li>
+            <li>Implemented Role-Based Access Control across doctors, administrators, and clinic staff.</li>
+            <li>Managed AWS production infrastructure (EC2, RDS, S3) and configured monitoring/logging via CloudWatch.</li>
+            <li>Owned production issue resolution for 130+ clients and 4,500+ users; ran safe releases via blue-green deployment.</li>
+            <li>Integrated third-party SMS and WhatsApp APIs; mentored juniors and led backend code reviews.</li>
+          </ul>
+        </div>
+        <div class="job">
+          <div class="when">Jun 2022 — Aug 2022</div>
+          <h3>Python Developer Intern</h3>
+          <div class="org">Tecnospice Technology, Coimbatore</div>
+          <ul>
+            <li>Assisted backend development in Django and Django REST Framework.</li>
+            <li>Improved SQL query performance for reporting modules and wrote API test cases.</li>
+            <li>Collaborated using Git in an Agile workflow — daily standups and sprint tasks.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <p class="eyebrow">Selected work</p>
+      <h2 class="sec">Projects</h2>
+      <p class="sec-sub">Backend systems I designed, built, and keep running in production.</p>
+      <div class="grid">
+        <div class="card">
+          <div class="top">
+            <h3>Emedhub</h3>
+            <span class="status-mini"><i></i>In production</span>
+          </div>
+          <div class="kind">Healthcare &amp; Ayurveda Platform — HIMS / EHR</div>
+          <p style="margin-top:12px">Backend for a healthcare platform serving 130+ clients and 4,500+ users — clinics,
+            patient records, prescriptions, and billing, plus an integrated Ayurveda wellness and product catalog. Built
+            REST APIs for appointments, history, prescriptions, and billing; RBAC across roles; Celery/Redis background
+            jobs; WebSocket emergency alerts; and S3 for medical documents.</p>
+          <div class="tags">
+            <span class="tag">Django</span><span class="tag">DRF</span><span class="tag">MySQL</span>
+            <span class="tag">Celery</span><span class="tag">Redis</span><span class="tag">WebSockets</span><span class="tag">AWS</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="top">
+            <h3>HrBuddie</h3>
+            <span class="status-mini"><i></i>Shipped</span>
+          </div>
+          <div class="kind">Human Resource Management System</div>
+          <p style="margin-top:12px">Backend services and REST APIs for an HR platform — data models and server-side
+            business logic supporting HR workflows with secure, role-based access to employee data. Implemented request
+            validation and DRF serializers, and optimized queries for reliable, performant access.</p>
+          <div class="tags">
+            <span class="tag">Django</span><span class="tag">DRF</span><span class="tag">MySQL</span><span class="tag">RBAC</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="top">
+            <h3>Fixdesk</h3>
+            <span class="status-mini"><i></i>Internal tool</span>
+          </div>
+          <div class="kind">Ticket &amp; Sprint Tracking Tool</div>
+          <p style="margin-top:12px">Backend services and REST APIs for an internal ticket and sprint tracker — data models
+            and endpoints for issue tracking, status workflows, and team collaboration, with authenticated role-based
+            endpoints and query optimization for fast retrieval.</p>
+          <div class="tags">
+            <span class="tag">Django</span><span class="tag">DRF</span><span class="tag">MySQL</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="top">
+            <h3>Reliability &amp; Ops</h3>
+            <span class="status-mini"><i></i>Ongoing</span>
+          </div>
+          <div class="kind">Production ownership</div>
+          <p style="margin-top:12px">Live-issue triage through log analysis, direct client coordination, and controlled
+            rollouts with blue-green deployment for minimal downtime. Monitoring and logging via CloudWatch; root-cause
+            analysis and regression-test guardrails so fixed issues stay fixed.</p>
+          <div class="tags">
+            <span class="tag">AWS</span><span class="tag">CloudWatch</span><span class="tag">Blue-Green</span>
+            <span class="tag">Docker</span><span class="tag">CI/CD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <p class="eyebrow">Toolkit</p>
+      <h2 class="sec">Skills</h2>
+      <p class="sec-sub">What I reach for to build and run backend systems.</p>
+      <div class="skills">
+        <div class="skillgroup">
+          <h4>Languages &amp; Frameworks</h4>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">SQL</span><span class="chip">Django</span>
+            <span class="chip">Django REST Framework</span>
+          </div>
+        </div>
+        <div class="skillgroup">
+          <h4>Databases</h4>
+          <div class="chips">
+            <span class="chip">MySQL</span><span class="chip">Schema design</span>
+            <span class="chip">Query optimization</span><span class="chip">ORM tuning</span>
+          </div>
+        </div>
+        <div class="skillgroup">
+          <h4>Async &amp; Real-time</h4>
+          <div class="chips">
+            <span class="chip">Celery</span><span class="chip">Redis</span><span class="chip">WebSockets</span>
+          </div>
+        </div>
+        <div class="skillgroup">
+          <h4>Cloud &amp; DevOps</h4>
+          <div class="chips">
+            <span class="chip">AWS (EC2, RDS, S3, IAM, CloudWatch)</span><span class="chip">Docker</span>
+            <span class="chip">GitHub Actions</span><span class="chip">Blue-Green Deployment</span><span class="chip">Linux</span>
+          </div>
+        </div>
+        <div class="skillgroup">
+          <h4>API &amp; Security</h4>
+          <div class="chips">
+            <span class="chip">REST API design</span><span class="chip">RBAC</span>
+            <span class="chip">Third-party integration (SMS, WhatsApp)</span>
+          </div>
+        </div>
+        <div class="skillgroup">
+          <h4>Practices &amp; Tools</h4>
+          <div class="chips">
+            <span class="chip">Agile / Scrum</span><span class="chip">Monitoring &amp; logging</span>
+            <span class="chip">Code review</span><span class="chip">Postman</span><span class="chip">Jira</span>
+            <span class="chip">DBeaver</span><span class="chip">Git</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">Credentials</p>
+      <div class="two">
+        <div class="panel">
+          <h4>Education</h4>
+          <div class="item">
+            <strong>M.Sc, Chemistry</strong>
+            <span>GTN Arts College · 2021</span>
+          </div>
+        </div>
+        <div class="panel">
+          <h4>Certifications</h4>
+          <div class="item">
+            <strong>Python Developer</strong>
+            <span>Appin Technology</span>
+          </div>
+          <div class="item">
+            <strong>AWS Cloud Training</strong>
+            <span>EC2, RDS, S3, IAM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact" style="border-top:1px solid var(--hairline);">
+    <div class="wrap">
+      <p class="eyebrow" style="justify-content:center;">Contact</p>
+      <h2>Let's build something reliable.</h2>
+      <p>Open to backend engineering roles. The fastest way to reach me is email or LinkedIn.</p>
+      <div class="cta" style="justify-content:center;">
+        <a class="btn btn-primary" href="mailto:deepakalbert31@gmail.com">deepakalbert31@gmail.com</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/deepak-a" target="_blank" rel="noopener">linkedin.com/in/deepak-a</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <footer class="foot">
+      <span>Deepak A · Backend Engineer · Coimbatore, India</span>
+      <span><a href="mailto:deepakalbert31@gmail.com">Email</a> · <a href="https://www.linkedin.com/in/deepak-a" target="_blank" rel="noopener">LinkedIn</a></span>
+    </footer>
+  </div>
+</div>
